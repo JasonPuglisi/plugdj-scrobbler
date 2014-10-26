@@ -5,8 +5,9 @@ var lastfmToken;
 var lastfmSession;
 
 var authStage = 0;
+var plugdjOpen = false;
 
-$('.instructions').click(function() {
+$('#instructions').click(function() {
 	if (authStage === 0) {
 		self.port.emit('setSession', '');
 
@@ -18,9 +19,18 @@ $('.instructions').click(function() {
 	}
 });
 
+$('#plugdj-link').click(function() {
+	if (!plugdjOpen) {
+		self.port.emit('setPanelDisplay', false);
+		self.port.emit('openTab', 'https://plug.dj/');
+	}
+});
+
 self.port.on('setSession', lastfmConfirm);
+self.port.on('setPlugdjOpen', setPlugdjOpen);
 
 setStage('default');
+setPlugdjOpen(false);
 
 function setStage(stage) {
 	switch(stage) {
@@ -44,7 +54,30 @@ function setStage(stage) {
 }
 
 function setInstructions(message) {
-	$('.instructions').html(message);
+	$('#instructions').html(message);
+}
+
+function setPlugdjOpen(status) {
+	switch(status) {
+		case false:
+			setPlugdjLink('Open Plug.dj', true);
+		break;
+		case true:
+			setPlugdjLink('Plug.dj is open', false);
+		break;
+	}
+}
+
+function setPlugdjLink(message, isLink) {
+	$('#plugdj-link').html(message);
+
+	if (isLink && !$('#plugdj-link').hasClass('link')) {
+		$('#plugdj-link').addClass('link');
+	}
+
+	if (!isLink && $('#plugdj-link').hasClass('link')) {
+		$('#plugdj-link').removeClass('link');
+	}
 }
 
 function lastfmAuthenticate(token) {

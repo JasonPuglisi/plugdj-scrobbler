@@ -13,10 +13,11 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 300;
 }
 
-h1 {
+.link {
+	cursor: pointer;
 	color: #00d2ff;
 }
 
-.instructions {
-	cursor: pointer;
+.link:hover, .link:active {
+	text-decoration: underline;
 }
