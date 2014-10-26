@@ -8,13 +8,27 @@
 	"icon": "data/icon-32-inactive.png",
 	"icon64": "data/icon-64-inactive.png",
 	"license": "MIT",
-	"version": "0.1",
+	"version": "1.0",
 	"preferences": [
 		{
 			"name": "lastfmSession",
 			"title": "Last.fm Session",
 			"type": "string",
 			"hidden": true
+		},
+		{
+			"name": "lastfmScrobbling",
+			"title": "Last.fm Scrobbling",
+			"description": "Whether or not to scrobble tracks from Plug.dj to Last.fm.",
+			"type": "bool",
+			"value": true
+		},
+		{
+			"name": "lastfmUpdating",
+			"title": "Last.fm Now Playing Updating",
+			"description": "Whether or not to send now playing information from Plug.dj to Last.fm.",
+			"type": "bool",
+			"value": true
 		}
 	]
 }
