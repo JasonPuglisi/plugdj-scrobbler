@@ -1,5 +1,4 @@
 var lastfmToken;
-var lastfmSession;
 
 var authStage = 0;
 var plugdjOpen = false;
@@ -112,12 +111,7 @@ function getToken(response) {
 	}
 
 	else {
-		$.ajax({
-			url: 'http://ws.audioscrobbler.com/2.0/?method=auth.getToken&api_key=' + lastfmKey + '&format=json',
-			type: 'GET',
-			success: getToken,
-			dataType: 'json'
-		});
+		call('auth.getToken', getToken, {}, false);
 	}
 }
 
@@ -132,18 +126,9 @@ function getSession(response) {
 
 	else {
 		var parameters = {
-			'method': 'auth.getSession',
-			'api_key': lastfmKey,
 			'token': lastfmToken
 		};
 
-		var sig = getSig(parameters);
-
-		$.ajax({
-			url: 'http://ws.audioscrobbler.com/2.0/?api_key=' + lastfmKey + '&method=auth.getSession&token=' + lastfmToken + '&format=json&api_sig=' + sig,
-			type: 'GET',
-			success: getSession,
-			error: getSession
-		});
+		call('auth.getSession', getSession, parameters, false);
 	}
 }

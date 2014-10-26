@@ -1,13 +1,19 @@
-var API = unsafeWindow.API;
-
 var artist = '';
 var track = '';
 var duration = 0;
 
+var lastfmSession;
+
+self.port.on('setSession', function(session) {
+	lastfmSession = session;
+})
+
 check();
 
 function check() {
-	if (API.getVolume()) {
+	if (lastfmSession && unsafeWindow.API && unsafeWindow.API.getVolume()) {
+		var API = unsafeWindow.API;
+
 		var media = API.getMedia();
 
 		if (media && media.author && media.title && media.duration) {
@@ -15,8 +21,6 @@ function check() {
 				artist = media.author;
 				track = media.title;
 				duration = media.duration;
-
-				console.log(artist, ' ', track, ' ', duration);
 
 				process();
 			}
@@ -34,9 +38,15 @@ function check() {
 
 function process() {
 	var parameters = {
-		'method': 'track.updateNowPlaying',
-		'api_key': lastfmKey,
+		'sk': lastfmSession,
 		'artist': artist, 
-		'track': track
+		'track': track,
+		'duration': duration
 	}
+
+	call('track.updateNowPlaying', updatePlaying, parameters);
+}
+
+function updatePlaying(data) {
+	console.log('Success ', data);
 }
