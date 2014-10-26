@@ -4,6 +4,8 @@ var lastfmBaseUrl = 'https://ws.audioscrobbler.com/2.0/';
 
 /*
  * createSignature() and call()
+ *
+ * Modified slightly from Google Music Scrobbler
  * https://github.com/fuzeman/GoogleMusicScrobbler
  *
  */

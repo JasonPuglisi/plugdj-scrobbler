@@ -22,8 +22,31 @@ $('#plugdj-link').click(function() {
 	}
 });
 
+$('#scrobble').click(function() {
+	if ($('#scrobble').is(':checked')) {
+		self.port.emit('setScrobbling', true);
+	}
+
+	else {
+		self.port.emit('setScrobbling', false);
+	}
+});
+
+$('#update').click(function() {
+	if ($('#update').is(':checked')) {
+		self.port.emit('setUpdating', true);
+	}
+
+	else {
+		self.port.emit('setUpdating', false);
+	}
+});
+
 self.port.on('setSession', lastfmConfirm);
 self.port.on('setPlugdjOpen', setPlugdjOpen);
+
+self.port.on('setScrobbling', setScrobbling);
+self.port.on('setUpdating', setUpdating);
 
 setStage('default');
 setPlugdjOpen(false);
@@ -37,10 +60,12 @@ function setStage(stage) {
 		case 'getting_token':
 			authStage = 1;
 			setInstructions('Click to confirm your account link.');
+			showControls(false);
 		break;
 		case 'link_completed':
 			authStage = 0;
 			setInstructions('Account linked. Click to relink.');
+			showControls(true);
 		break;
 		case 'link_failed':
 			authStage = 0;
@@ -51,6 +76,16 @@ function setStage(stage) {
 
 function setInstructions(message) {
 	$('#instructions').html(message);
+}
+
+function showControls(show) {
+	if (show && $('#controls').hasClass('hidden')) {
+		$('#controls').removeClass('hidden');
+	}
+
+	if (!show && !$('#controls').hasClass('hidden')) {
+		$('#controls').addClass('hidden');
+	}
 }
 
 function setPlugdjOpen(status) {
@@ -130,5 +165,25 @@ function getSession(response) {
 		};
 
 		call('auth.getSession', getSession, parameters, false);
+	}
+}
+
+function setScrobbling(scrobble) {
+	if (scrobble) {
+		$('#scrobble').prop('checked', true);
+	}
+
+	else {
+		$('#scrobble').prop('checked', false);
+	}
+}
+
+function setUpdating(update) {
+	if (update) {
+		$('#update').prop('checked', true);
+	}
+
+	else {
+		$('#update').prop('checked', false);
 	}
 }
