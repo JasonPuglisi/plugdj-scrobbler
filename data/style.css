@@ -1,12 +1,16 @@
-@import url(https://fonts.googleapis.com/css?Raleway:400);
+@import url(https://fonts.googleapis.com/css?Open+Sans:400|300);
 
 body {
 	background-color: #222b33;
 
-	font-family: 'Raleway', 'Helvetica Neue', Helvetica, 'Trebuchet MS', 'Verdana', Arial, sans-serif;
+	font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Trebuchet MS', 'Verdana', Arial, sans-serif;
 	text-align: center;
 
 	color: #fff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 300;
 }
 
 h1 {
