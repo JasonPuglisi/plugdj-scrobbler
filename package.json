@@ -8,7 +8,7 @@
 	"icon": "data/icon-32-inactive.png",
 	"icon64": "data/icon-64-inactive.png",
 	"license": "MIT",
-	"version": "1.0",
+	"version": "1.0.1",
 	"preferences": [
 		{
 			"name": "lastfmSession",
