@@ -1,6 +1,8 @@
 # Plug.dj Scrobbler
 
-Firefox extension to scrobble tracks from Plug.dj.
+Compatible with Firefox.
+
+Scrobbles the tracks you listen to on Plug.dj to your Last.fm account.
 
 ## Setup
 
