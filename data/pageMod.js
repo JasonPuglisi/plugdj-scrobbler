@@ -20,7 +20,6 @@ self.port.on('setSession', function(session) {
 
 self.port.on('setScrobbling', function(scrobble) {
 	lastfmScrobbling = scrobble;
-});
 
 self.port.on('setUpdating', function(update) {
 	lastfmUpdating = update;
