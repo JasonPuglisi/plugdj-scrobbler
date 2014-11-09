@@ -1,17 +1,26 @@
-var lastfmToken;
+/* Reference variables */
 
+var lastfmToken = '';
 var authStage = 0;
 var plugdjOpen = false;
 
+/* Port event handlers */
+
+self.port.on('setSession', lastfmConfirm);
+self.port.on('setPlugdjOpen', setPlugdjOpen);
+self.port.on('setScrobbling', setScrobbling);
+self.port.on('setUpdating', setUpdating);
+
+/* HTML event handlers */
+
 $('#instructions').click(function() {
-	if (authStage === 0) {
-		self.port.emit('setSession', '');
-
-		lastfmAuthenticate();
-	}
-
-	else if (authStage === 1) {
-		lastfmConfirm();
+	switch (authStage) {
+		case 0:
+			self.port.emit('setSession', '');
+			lastfmAuthenticate();
+			break;
+		case 1:
+			lastfmConfirm();
 	}
 });
 
@@ -23,94 +32,51 @@ $('#plugdj-link').click(function() {
 });
 
 $('#scrobble').click(function() {
-	if ($('#scrobble').is(':checked')) {
+	if ($('#scrobble').is(':checked'))
 		self.port.emit('setScrobbling', true);
-	}
-
-	else {
+	else
 		self.port.emit('setScrobbling', false);
-	}
 });
 
 $('#update').click(function() {
-	if ($('#update').is(':checked')) {
+	if ($('#update').is(':checked'))
 		self.port.emit('setUpdating', true);
-	}
-
-	else {
+	else
 		self.port.emit('setUpdating', false);
-	}
 });
 
-self.port.on('setSession', lastfmConfirm);
-self.port.on('setPlugdjOpen', setPlugdjOpen);
-
-self.port.on('setScrobbling', setScrobbling);
-self.port.on('setUpdating', setUpdating);
+/* Panel initialization */
 
 setStage('default');
 setPlugdjOpen(false);
 
+/* Authentication functions */
+
+// Update authentication state and instructions
 function setStage(stage) {
 	switch(stage) {
 		case 'default':
 			authStage = 0;
 			setInstructions('Your account is not linked. Click to complete the process, then come back here.');
-		break;
+			break;
 		case 'getting_token':
 			authStage = 1;
 			setInstructions('Click to confirm your account link.');
 			showControls(false);
-		break;
+			break;
 		case 'link_completed':
 			authStage = 0;
 			setInstructions('Account linked. Click to relink.');
 			showControls(true);
-		break;
+			break;
 		case 'link_failed':
 			authStage = 0;
 			setInstructions('Account link failed. Click to try again.');
-		break;
+			break;
 	}
 }
 
-function setInstructions(message) {
-	$('#instructions').html(message);
-}
-
-function showControls(show) {
-	if (show && $('#controls').hasClass('hidden')) {
-		$('#controls').removeClass('hidden');
-	}
-
-	if (!show && !$('#controls').hasClass('hidden')) {
-		$('#controls').addClass('hidden');
-	}
-}
-
-function setPlugdjOpen(status) {
-	switch(status) {
-		case false:
-			setPlugdjLink('Open Plug.dj', true);
-		break;
-		case true:
-			setPlugdjLink('Plug.dj is open', false);
-		break;
-	}
-}
-
-function setPlugdjLink(message, isLink) {
-	$('#plugdj-link').html(message);
-
-	if (isLink && !$('#plugdj-link').hasClass('link')) {
-		$('#plugdj-link').addClass('link');
-	}
-
-	if (!isLink && $('#plugdj-link').hasClass('link')) {
-		$('#plugdj-link').removeClass('link');
-	}
-}
-
+// Create account link using token
 function lastfmAuthenticate(token) {
 	if (token) {
 		lastfmToken = token;
@@ -120,45 +86,26 @@ function lastfmAuthenticate(token) {
 
 		setStage('getting_token');
 	}
-
-	else {
+	else
 		getToken();
-	}
 }
 
-function lastfmConfirm(session) {
-	if (session) {
-		lastfmSession = session;
-
-		self.port.emit('setSession', session);
-
-		setStage('link_completed');
-	}
-
-	else {
-		getSession();
-	}
-}
-
+// Get token got use in creating account link
 function getToken(response) {
-	if (response) {
+	if (response)
 		lastfmAuthenticate(response.token);
-	}
-
-	else {
+	else
 		call('auth.getToken', getToken, {}, false);
-	}
 }
 
+// Get permanent session key using token after account link is created
 function getSession(response) {
 	if (response) {
-		if (!response.session) {
+		if (!response.session)
 			setStage('link_failed');
-		} else {
+		else
 			lastfmConfirm(response.session.key);
-		}
 	}
-
 	else {
 		var parameters = {
 			'token': lastfmToken
@@ -168,22 +115,64 @@ function getSession(response) {
 	}
 }
 
-function setScrobbling(scrobble) {
-	if (scrobble) {
-		$('#scrobble').prop('checked', true);
-	}
+// Set account link status to complete and update session key
+function lastfmConfirm(session) {
+	if (session) {
+		lastfmSession = session;
 
-	else {
-		$('#scrobble').prop('checked', false);
+		self.port.emit('setSession', session);
+
+		setStage('link_completed');
+	}
+	else
+		getSession();
+}
+
+/* HTML functions */
+
+function setInstructions(message) {
+	$('#instructions').html(message);
+}
+
+function showControls(show) {
+	if (show && $('#controls').hasClass('hidden'))
+		$('#controls').removeClass('hidden');
+	if (!show && !$('#controls').hasClass('hidden'))
+		$('#controls').addClass('hidden');
+}
+
+function setPlugdjOpen(status) {
+	switch(status) {
+		case false:
+			setPlugdjLink('Open Plug.dj', true);
+			break;
+		case true:
+			setPlugdjLink('Plug.dj is open', false);
+			break;
 	}
 }
 
-function setUpdating(update) {
-	if (update) {
-		$('#update').prop('checked', true);
-	}
+function setPlugdjLink(message, isLink) {
+	$('#plugdj-link').html(message);
 
-	else {
+	if (isLink && !$('#plugdj-link').hasClass('link'))
+		$('#plugdj-link').addClass('link');
+	if (!isLink && $('#plugdj-link').hasClass('link'))
+		$('#plugdj-link').removeClass('link');
+}
+
+/* Utility functions */
+
+function setScrobbling(scrobble) {
+	if (scrobble)
+		$('#scrobble').prop('checked', true);
+	else
+		$('#scrobble').prop('checked', false);
+}
+
+function setUpdating(update) {
+	if (update)
+		$('#update').prop('checked', true);
+	else
 		$('#update').prop('checked', false);
-	}
 }

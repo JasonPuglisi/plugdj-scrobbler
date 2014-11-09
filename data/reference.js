@@ -15,7 +15,8 @@ function createSignature(parameters) {
 
 	Object.keys(parameters).sort().forEach(function(key) {
 		if (key !== 'format') {
-			if (parameters[key] === undefined || parameters[key] === null) parameters[key] = '';
+			if (parameters[key] === undefined || parameters[key] === null)
+				parameters[key] = '';
 			sig += key + parameters[key];
 		}
 	});
@@ -28,7 +29,8 @@ function createSignature(parameters) {
 function call(method, callback, parameters, write) {
 	parameters = parameters || {};
 
-	if (write === undefined || write === null) write = true;
+	if (write === undefined || write === null)
+		write = true;
 
 	parameters.method = method;
 	parameters.api_key = lastfmKey;
@@ -37,12 +39,11 @@ function call(method, callback, parameters, write) {
 
 	var request = null;
 
-	if (write) {
+	if (write)
 		request = $.ajax(lastfmBaseUrl, {
 			type: 'POST',
 			data: parameters
 		});
-	}
 
 	else {
 		var paramString = '';

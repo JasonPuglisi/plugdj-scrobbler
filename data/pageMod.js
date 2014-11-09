@@ -1,3 +1,9 @@
+/* Reference variables */
+
+var lastfmSession = '';
+var lastfmScrobbling = '';
+var lastfmUpdating = '';
+
 var artist = '';
 var track = '';
 var duration = 0;
@@ -10,9 +16,9 @@ var updated = false;
 
 var selfPlaying = 0;
 
-var lastfmSession;
-var lastfmScrobbling;
-var lastfmUpdating;
+var checkMediaLoop;
+
+/* Port event handlers */
 
 self.port.on('setSession', function(session) {
 	lastfmSession = session;
@@ -20,20 +26,21 @@ self.port.on('setSession', function(session) {
 
 self.port.on('setScrobbling', function(scrobble) {
 	lastfmScrobbling = scrobble;
+});
 
 self.port.on('setUpdating', function(update) {
 	lastfmUpdating = update;
 });
 
+/* Media check initialization */
+
 checkMedia();
 
-var checkMediaLoop;
+/* Media check functinons */
 
 function checkMedia(response) {
-	if (response) {
+	if (response)
 		console.log('Scrobbled: ', response);
-	}
-
 	else {
 		if (lastfmSession && unsafeWindow.API && unsafeWindow.API.getVolume()) {
 			var media = unsafeWindow.API.getMedia();
@@ -105,10 +112,8 @@ function checkMedia(response) {
 }
 
 function updateNowPlaying(response) {
-	if (response) {
+	if (response)
 		console.log('Updated now playing: ', response);
-	}
-
 	else {
 		var parameters = {
 			'sk': lastfmSession,
@@ -119,12 +124,4 @@ function updateNowPlaying(response) {
 
 		call('track.updateNowPlaying', updateNowPlaying, parameters);
 	}
-}
-
-function setScrobbling(scrobble) {
-	lastfmScrobbling = scrobble;
-}
-
-function setUpdating(update) {
-	lastfmUpdating = update;
 }
