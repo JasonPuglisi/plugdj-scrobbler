@@ -1,15 +1,25 @@
 # Plug.dj Scrobbler
 
-Compatible with Firefox.
+Compatible with Firefox 30 and newer.
 
 Scrobbles the tracks you listen to on Plug.dj to your Last.fm account.
 
-## Setup
+## Getting Started
 
-Before Plug.dj Scrobbler can do anything, you need to link your account. Click the Plug.dj Scrobbler button and follow the instructions. Make sure you click the button again and confirm the link after finishing the process on Last.fm.
+1. Click the Plug.dj Scrobbler button on your toolbar to bring up the menu. Click the blue text to start linking your account.
 
-## Settings
+2. If you're not logged into Last.fm log in. Click ``Yes, allow access`` to link your account.
 
-You can access the settings menu by clicking the button once your account is linked. `Scrobble tracks` controls whether or not to scrobble tracks from Plug.dj to Last.fm and `Update now playing` controls whether or not to send now playing information from Plug.dj to Last.fm.
+3. Bring up the menu and and click the blue text to confirm the account link.
 
-Tracks are scrobbled once you've listened to half of their duration or four minutes. Tracks under 30 seconds long are not scrobbled. These rules are regulated by Last.fm and cannot be changed.
+4. Change the setting checkboxes if desired, and start listening to music on Plug.dj. If you do not see checkboxes in the menu, repeat the above steps to relink your account.
+
+## Information
+
+You can control whether or not to scrobble tracks and whether or not to update now playing information. These settings are available in the menu.
+
+As per Last.fm scrobbling guidelines, a track is scrobbled once you've listened to half of its duration or four minutes. A track under 30 seconds in length will not be scrobbled.
+
+Try to keep the artist and track metadata on Plug.dj as accurate as possible. This avoids filling your account with junk, and some incorrect metadata may be rejected by Last.fm.
+
+If you ever have issues, make sure you only have one Plug.dj tab open and reload the page. If that doesn't work, use the menu to relink your account.

@@ -1,14 +1,16 @@
 {
-	"name": "plugdj-scrobbler",
-	"title": "Plug.dj Scrobbler",
 	"id": "plugdj-scrobbler@puglisi.im",
+	"version": "1.0.2",
+	"title": "Plug.dj Scrobbler",
 	"description": "Scrobbles the tracks you listen to on Plug.dj to your Last.fm account.",
 	"author": "Jason Puglisi (https://www.puglisi.im/) <jason@puglisi.im>",
 	"homepage": "https://github.com/JasonPuglisi/plugdj-scrobbler",
-	"icon": "data/icon-32-inactive.png",
-	"icon64": "data/icon-64-inactive.png",
-	"license": "MIT",
-	"version": "1.0.2",
+	"license": "MIT (https://raw.githubusercontent.com/JasonPuglisi/plugdj-scrobbler/master/License.txt)",
+	"icon": "data/icon-32.png",
+	"icon64": "data/icon-64.png",
+	"permissions": {
+		"private-browsing": true
+	},
 	"preferences": [
 		{
 			"name": "lastfmSession",
@@ -19,14 +21,14 @@
 		{
 			"name": "lastfmScrobbling",
 			"title": "Last.fm Scrobbling",
-			"description": "Whether or not to scrobble tracks from Plug.dj to Last.fm.",
+			"description": "Whether or not to scrobble tracks.",
 			"type": "bool",
 			"value": true
 		},
 		{
 			"name": "lastfmUpdating",
 			"title": "Last.fm Now Playing Updating",
-			"description": "Whether or not to send now playing information from Plug.dj to Last.fm.",
+			"description": "Whether or not to update now playing information.",
 			"type": "bool",
 			"value": true
 		}
