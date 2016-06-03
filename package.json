@@ -8,6 +8,7 @@
 	"license": "MIT (https://raw.githubusercontent.com/JasonPuglisi/plugdj-scrobbler/master/License.txt)",
 	"icon": "data/icon-32.png",
 	"icon64": "data/icon-64.png",
+	"main": "lib/main.js",
 	"permissions": {
 		"private-browsing": true
 	},
